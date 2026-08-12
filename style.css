@@ -1,0 +1,273 @@
+/* CSS Reset & Variables */
+:root {
+    --primary: #B58B5E; /* Muted Gold/Brown */
+    --secondary: #EBE6E0; /* Soft beige */
+    --bg-color: #FAFAFA;
+    --text-color: #4A4A4A;
+    --heading-font: 'Playfair Display', serif;
+    --body-font: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--body-font);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--heading-font);
+    font-weight: normal;
+    color: #333;
+}
+
+a { text-decoration: none; }
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.text-center { text-align: center; }
+
+.section {
+    padding: 80px 0;
+}
+
+.bg-light {
+    background-color: var(--secondary);
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--primary);
+    font-style: italic;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 30px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+    border: 1px solid var(--primary);
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: transparent;
+    color: var(--primary);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary);
+}
+.btn-outline:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: url('src/images/hero-bg.jpg') center center/cover no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-content {
+    z-index: 2;
+}
+
+.hero-content h4 {
+    letter-spacing: 3px;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.hero-content h1 {
+    font-size: 5rem;
+    font-style: italic;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+/* Invitation Section */
+.bismillah {
+    font-style: italic;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.couple {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.person h3 {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.ampersand {
+    font-family: var(--heading-font);
+    font-size: 3rem;
+    color: var(--primary);
+}
+
+/* Events Section */
+.events {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.event-card {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+}
+
+.event-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--primary);
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.event-card .date, .event-card .time, .event-card .location {
+    margin-bottom: 15px;
+}
+
+.event-card .location {
+    font-weight: 500;
+}
+
+/* Countdown */
+.countdown-section {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('src/images/hero-bg.jpg') center/cover fixed;
+    color: white;
+}
+.countdown-section .section-title {
+    color: white;
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.time-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.time-box span {
+    display: block;
+    font-size: 2.5rem;
+    font-family: var(--heading-font);
+    font-weight: bold;
+}
+
+.time-box small {
+    display: block;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* RSVP Form */
+.rsvp-form {
+    max-width: 500px;
+    margin: 40px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.rsvp-form input, .rsvp-form select, .rsvp-form textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: var(--body-font);
+    font-size: 14px;
+}
+
+.rsvp-form input:focus, .rsvp-form select:focus, .rsvp-form textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Footer */
+footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+footer h2 {
+    color: white;
+    font-style: italic;
+    margin-top: 10px;
+    font-size: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-content h1 { font-size: 3.5rem; }
+    .couple { flex-direction: column; gap: 10px; }
+    .section { padding: 50px 0; }
+}
