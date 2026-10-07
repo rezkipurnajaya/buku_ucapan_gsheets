@@ -1,46 +1,71 @@
-// Tanggal Pernikahan
-const countDownDate = new Date("Dec 12, 2026 08:00:00").getTime();
+// Ganti dengan URL Aplikasi Web (Web App URL) dari Google Apps Script Anda
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7mZsDDE-h7DknMPD2WSvO8dCnHtmJ-EcM9ilFAKJo8qimWkoqCKTUI9xSzRu3rRvc/exec'; 
 
-// Update hitungan mundur setiap 1 detik
-const x = setInterval(function() {
+const form = document.getElementById('guestbook-form');
+const feedContainer = document.getElementById('guestbook-feed-container');
+const submitBtn = document.getElementById('submit-btn');
 
-    // Waktu sekarang
-    const now = new Date().getTime();
+// Fungsi Sanitasi (Mencegah XSS)
+function sanitizeHTML(str) {
+    const temp = document.createElement('div');
+    temp.textContent = str;
+    return temp.innerHTML;
+}
 
-    // Selisih waktu
-    const distance = countDownDate - now;
+// Fungsi merender data dari JSON ke DOM HTML
+function renderFeed(dataArray) {
+    feedContainer.innerHTML = ''; // Kosongkan state loading
+    dataArray.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'comment-card';
+        card.innerHTML = `
+            <strong>${sanitizeHTML(item.nama)}</strong>
+            <span class="badge">${sanitizeHTML(item.kehadiran)}</span>
+            <p style="margin-top: 8px;">${sanitizeHTML(item.pesan)}</p>
+        `;
+        feedContainer.appendChild(card);
+    });
+}
 
-    // Kalkulasi waktu
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    // Tampilkan di HTML
-    document.getElementById("days").innerHTML = days;
-    document.getElementById("hours").innerHTML = hours;
-    document.getElementById("minutes").innerHTML = minutes;
-    document.getElementById("seconds").innerHTML = seconds;
-
-    // Jika waktu habis
-    if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("countdown").innerHTML = "<h3>Acara Telah Dimulai</h3>";
+// Fungsi memuat ucapan dari Google Sheets (GET)
+async function fetchComments() {
+    try {
+        const response = await fetch(SCRIPT_URL);
+        const data = await response.json();
+        renderFeed(data);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        feedContainer.innerHTML = '<p>Gagal memuat ucapan tamu.</p>';
     }
-}, 1000);
+}
 
-// RSVP to WhatsApp
-document.getElementById('rsvp-form').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Menangani pengiriman formulir (POST)
+form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Mencegah reload halaman
     
-    const nama = this.querySelector('input[type="text"]').value;
-    const kehadiran = this.querySelector('select').value;
-    const pesan = this.querySelector('textarea').value;
-    
-    // Ganti nomor ini dengan nomor WhatsApp yang dituju
-    const noWA = "6281234567890"; 
-    
-    const textWA = `Halo, saya ${nama}.%0A%0ASaya ingin konfirmasi bahwa saya *${kehadiran === 'ya' ? 'AKAN HADIR' : 'TIDAK BISA HADIR'}* pada acara pernikahan.%0A%0APesan/Doa: ${pesan}`;
-    
-    window.open(`https://wa.me/${noWA}?text=${textWA}`, '_blank');
+    // Ubah status tombol untuk UX yang baik
+    submitBtn.textContent = 'Mengirim...';
+    submitBtn.disabled = true;
+
+    try {
+        // Ambil data langsung dari elemen formulir
+        const requestBody = new FormData(form);
+        
+        // Kirim asinkronus ke Google Sheets
+        await fetch(SCRIPT_URL, { method: 'POST', body: requestBody });
+        
+        // Reset formulir & perbarui feed secara real-time
+        form.reset();
+        await fetchComments();
+        
+    } catch (error) {
+        console.error('Gagal mengirim data:', error);
+        alert('Terjadi kesalahan jaringan.');
+    } finally {
+        submitBtn.textContent = 'Kirim Ucapan';
+        submitBtn.disabled = false;
+    }
 });
+
+// Jalankan fetch saat halaman pertama kali dimuat
+fetchComments();
