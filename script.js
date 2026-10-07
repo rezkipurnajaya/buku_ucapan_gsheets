@@ -1,5 +1,5 @@
 // Ganti dengan URL Aplikasi Web (Web App URL) dari Google Apps Script Anda
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7mZsDDE-h7DknMPD2WSvO8dCnHtmJ-EcM9ilFAKJo8qimWkoqCKTUI9xSzRu3rRvc/exec'; 
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzZRI2b5XbR-q97_v5bcIox9WaNzuSI6xtQNbx1iure_t07Z3LwGroPiPvsD5297a-e/exec'; 
 
 const form = document.getElementById('guestbook-form');
 const feedContainer = document.getElementById('guestbook-feed-container');
